@@ -50,16 +50,21 @@ function createMyChart() {
     
     // Step 2: Process the restaurant data for charting
     // You need to count how many restaurants of each cuisine type there are
+
     const cuisineCounts = {};
     restaurants.forEach(function(restaurant) {
         // TODO: Count restaurants by cuisine type
         // Hint: restaurant.cuisine is the field you want
         // Hint: cuisineCounts[cuisine] = (cuisineCounts[cuisine] || 0) + 1;
+        const cuisine = restaurant.cuisine;
+        cuisineCounts[cuisine] = (cuisineCounts[cuisine] || 0) + 1;
     });
     
     // Step 3: Transform counts into Chart.js format using array methods
     // const chartLabels = /* TODO: Get the cuisine types (keys) */;
     // const chartData = /* TODO: Get the counts (values) */;
+    const chartLabels = Object.keys(cuisineCounts);
+    const chartData = Object.values(cuisineCounts);
     
     console.log('Chart data prepared:', { labels: chartLabels, data: chartData });
     
@@ -82,7 +87,7 @@ function createMyChart() {
                 labels: chartLabels,
                 datasets: [{
                     /* TODO: adjust this name */
-                    label: 'name-of-series',
+                    label: 'Number of Restaurants',
                     data: chartData,
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.6)',
@@ -100,7 +105,7 @@ function createMyChart() {
                 plugins: {
                     title: {
                         display: true,
-                        text: 'title your chart please'
+                        text: 'Restaurant Distribution by Cuisine'
                     }
                 },
                 scales: {
@@ -108,7 +113,7 @@ function createMyChart() {
                         beginAtZero: true,
                         title: {
                             display: true,
-                            text: 'a real y axis has a label'
+                            text: 'Number of Restaurants'
                         }
                     }
                 }
@@ -161,7 +166,11 @@ function createMyMap() {
             // TODO: Create popup content with restaurant information
             /* TODO: Build HTML string using restaurant.name, restaurant.cuisine, restaurant.rating */;
             // const popupContent = ...;
-            
+            const popupContent = `
+                <strong>${restaurant.name}</strong><br>
+                Cuisine: ${restaurant.cuisine}<br>
+                Rating: ${restaurant.rating}
+            `;
             // TODO: Bind the popup to the marker and add to map
             marker.bindPopup(popupContent).addTo(myMap);
         });
@@ -199,15 +208,23 @@ function animateMyCards() {
         
         gsap.fromTo('.restaurant-card', 
             // FROM state (starting point)
-            {
+            { 
                 /* TODO: Starting properties - opacity, scale, y position? */
+                opacity: 0,
+                scale: 0.8,
+                y: 50
             },
             // TO state (ending point)  
             {
+                opacity: 1,
+                scale: 1,
+                y: 0,
                 /* TODO: Ending properties - make them fully visible and normal size */
-                duration: '0.2'
+                duration: 0.6,
                 // stagger: /* TODO: Delay between each card? 0.1 seconds? */,
+                stagger: 0.1,
                 // ease: /* TODO: What kind of easing? "bounce.out"? */
+                ease: "bounce.out"
             }
         );
         
