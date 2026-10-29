@@ -1,0 +1,33 @@
+1. MVC separates an application into three components (model, view, and controller).
+    This makes the code easier to organize, read, update, and test.
+
+2. The rating rule belongs in the model because the model manages the logic for filtering.
+    Keeping the rule out of the controller prevents user interaction logic mixing with
+    filtering logic.
+
+3. The view would change the most because it controls how the information is displayed on
+    the webpage. The model and controller would remain mostly unchanged because the  data
+    and button interactions would work the same.
+
+4. MVC does not require three separate JavaScript files, but it's easier to read and maintain
+    them in three separate files.
+
+5. The model should manage the data from a REST API because it handles retrieving, storing,
+    and providing data to the controller, and then the view.
+
+MVC Detective:
+The problem with the code is because it mixes filtering and displaying logic, but these need
+to be in separate places (model for filtering, and controller to pass to view)
+
+In model.js =
+getTopRatedRestaurants: function () {
+    return this.restaurants.filter(function (restaurant) {
+        return restaurant.rating >= 4.5;
+    });
+}
+
+In controller.js =
+showTopRateButton.addEventListener("click", function () {
+    const TopRated = restaurantModel.getTopRatedRestaurants();
+    restaurantView.displayRestaurants(topRated);
+});
